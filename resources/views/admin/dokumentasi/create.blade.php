@@ -25,12 +25,6 @@
             </div>
         </div>
 
-        <div class="field {{ $errors->has('tanggal') ? 'has-error' : '' }}">
-            <label for="tanggal">Tanggal Publikasi</label>
-            <input id="tanggal" type="date" name="tanggal" value="{{ old('tanggal', now('Asia/Jakarta')->toDateString()) }}">
-            <p class="hint">Otomatis terisi tanggal hari ini (WIB). Anda tetap dapat mengubahnya.</p>
-        </div>
-
         <div class="field mt-5 {{ $errors->has('deskripsi') ? 'has-error' : '' }}">
             <label for="deskripsi">Deskripsi</label>
             <textarea id="deskripsi" name="deskripsi" rows="4" maxlength="1000" placeholder="Cerita singkat tentang kegiatan ini (opsional)">{{ old('deskripsi') }}</textarea>

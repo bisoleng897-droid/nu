@@ -25,8 +25,8 @@ class NewsController extends Controller
     {
         $validated = $request->validate($this->rules());
 
-        // Tanggal publikasi otomatis mengikuti hari ini (WIB) bila admin tidak mengisinya.
-        $validated['published_at'] = $validated['published_at'] ?? now('Asia/Jakarta')->toDateString();
+        // Tanggal publikasi otomatis mengikuti hari pengiriman (WIB).
+        $validated['published_at'] = now('Asia/Jakarta')->toDateString();
 
         $validated['slug'] = Str::slug($validated['title']).'-'.time();
 
@@ -55,10 +55,8 @@ class NewsController extends Controller
     {
         $validated = $request->validate($this->rules());
 
-        // Bila tanggal dikosongkan, pertahankan tanggal yang sudah tersimpan.
-        if (blank($validated['published_at'] ?? null)) {
-            unset($validated['published_at']);
-        }
+        // Tanggal publikasi tetap sesuai tanggal pertama kali dikirim.
+        unset($validated['published_at']);
 
         if ($validated['title'] !== $news->title) {
             $validated['slug'] = Str::slug($validated['title']).'-'.time();
@@ -96,7 +94,6 @@ class NewsController extends Controller
             'lat' => 'nullable|numeric|between:-90,90',
             'lng' => 'nullable|numeric|between:-180,180',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'published_at' => 'nullable|date',
         ];
     }
 

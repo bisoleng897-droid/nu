@@ -25,12 +25,6 @@
             </div>
         </div>
 
-        <div class="field {{ $errors->has('tanggal') ? 'has-error' : '' }}">
-            <label for="tanggal">Tanggal Publikasi</label>
-            <input id="tanggal" type="date" name="tanggal" value="{{ old('tanggal', $dokumentasi->tanggal?->toDateString() ?? $dokumentasi->created_at->timezone('Asia/Jakarta')->toDateString()) }}">
-            <p class="hint">Tanggal publikasi tersimpan. Ubah bila perlu, atau biarkan sesuai tanggal sebelumnya.</p>
-        </div>
-
         <div class="field mt-5 {{ $errors->has('deskripsi') ? 'has-error' : '' }}">
             <label for="deskripsi">Deskripsi</label>
             <textarea id="deskripsi" name="deskripsi" rows="4" maxlength="1000" placeholder="Cerita singkat tentang kegiatan ini (opsional)">{{ old('deskripsi', $dokumentasi->deskripsi) }}</textarea>

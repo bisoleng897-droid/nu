@@ -43,7 +43,6 @@ class DokumentasiController extends Controller
             'kategori' => 'nullable|string|max:100',
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'tanggal' => 'nullable|date',
             'fotos' => 'required|array|min:1|max:10',
             'fotos.*' => 'image|mimes:jpg,jpeg,png,webp|max:4096',
         ]);
@@ -53,7 +52,7 @@ class DokumentasiController extends Controller
                 'kategori' => $validated['kategori'] ?? null,
                 'judul' => $validated['judul'],
                 'deskripsi' => $validated['deskripsi'] ?? null,
-                'tanggal' => $validated['tanggal'] ?? now('Asia/Jakarta')->toDateString(),
+                'tanggal' => now('Asia/Jakarta')->toDateString(),
             ]);
 
             $urutan = 0;
@@ -83,23 +82,15 @@ class DokumentasiController extends Controller
             'kategori' => 'nullable|string|max:100',
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'tanggal' => 'nullable|date',
             'fotos' => 'nullable|array|max:10',
             'fotos.*' => 'image|mimes:jpg,jpeg,png,webp|max:4096',
         ]);
 
-        $data = [
+        $dokumentasi->update([
             'kategori' => $validated['kategori'] ?? null,
             'judul' => $validated['judul'],
             'deskripsi' => $validated['deskripsi'] ?? null,
-        ];
-
-        // Bila tanggal dikosongkan, pertahankan tanggal yang sudah tersimpan.
-        if (filled($validated['tanggal'] ?? null)) {
-            $data['tanggal'] = $validated['tanggal'];
-        }
-
-        $dokumentasi->update($data);
+        ]);
 
         if ($request->hasFile('fotos')) {
             // Hapus foto lama dan ganti dengan yang baru.

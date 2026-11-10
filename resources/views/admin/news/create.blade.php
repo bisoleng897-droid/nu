@@ -19,12 +19,6 @@
             <input id="title" type="text" name="title" value="{{ old('title') }}" required maxlength="255" placeholder="Contoh: Kajian Bulanan Oktober">
         </div>
 
-        <div class="field mt-5 {{ $errors->has('published_at') ? 'has-error' : '' }}">
-            <label for="published_at">Tanggal Publikasi</label>
-            <input id="published_at" type="date" name="published_at" value="{{ old('published_at', now('Asia/Jakarta')->toDateString()) }}">
-            <p class="hint">Otomatis terisi tanggal hari ini (WIB). Anda tetap dapat mengubahnya.</p>
-        </div>
-
         <div class="field mt-5 {{ $errors->has('content') ? 'has-error' : '' }}">
             <label for="content">Isi Berita <span class="text-red-600">*</span></label>
             <textarea id="content" name="content" rows="8" required placeholder="Tulis isi berita, kajian, atau pengumuman di sini...">{{ old('content') }}</textarea>
