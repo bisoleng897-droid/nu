@@ -26,8 +26,9 @@
         </div>
 
         <div class="field {{ $errors->has('tanggal') ? 'has-error' : '' }}">
-            <label for="tanggal">Tanggal <span class="text-red-600">*</span></label>
-            <input id="tanggal" type="date" name="tanggal" value="{{ old('tanggal', optional($dokumentasi->tanggal)->format('Y-m-d')) }}" required>
+            <label for="tanggal">Tanggal Publikasi</label>
+            <input id="tanggal" type="date" name="tanggal" value="{{ old('tanggal', $dokumentasi->tanggal?->toDateString() ?? $dokumentasi->created_at->timezone('Asia/Jakarta')->toDateString()) }}">
+            <p class="hint">Tanggal publikasi tersimpan. Ubah bila perlu, atau biarkan sesuai tanggal sebelumnya.</p>
         </div>
 
         <div class="field mt-5 {{ $errors->has('deskripsi') ? 'has-error' : '' }}">

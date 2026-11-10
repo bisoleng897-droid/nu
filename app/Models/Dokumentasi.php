@@ -23,6 +23,15 @@ class Dokumentasi extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::creating(function (Dokumentasi $dokumentasi) {
+            if (blank($dokumentasi->tanggal)) {
+                $dokumentasi->tanggal = now('Asia/Jakarta')->toDateString();
+            }
+        });
+    }
+
     /**
      * Semua foto yang termasuk dokumentasi ini, diurutkan.
      */

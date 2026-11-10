@@ -14,7 +14,7 @@ class DokumentasiController extends Controller
     {
         $query = Dokumentasi::with(['fotos' => function ($query) {
             $query->orderBy('urutan')->orderBy('id');
-        }])->orderByDesc('tanggal')->orderByDesc('id');
+        }])->orderByDesc('created_at')->orderByDesc('id');
 
         if ($request->filled('kategori')) {
             $query->where('kategori', $request->kategori);
@@ -53,7 +53,7 @@ class DokumentasiController extends Controller
                 'kategori' => $validated['kategori'] ?? null,
                 'judul' => $validated['judul'],
                 'deskripsi' => $validated['deskripsi'] ?? null,
-                'tanggal' => $validated['tanggal'] ?? null,
+                'tanggal' => $validated['tanggal'] ?? now('Asia/Jakarta')->toDateString(),
             ]);
 
             $urutan = 0;
@@ -88,12 +88,18 @@ class DokumentasiController extends Controller
             'fotos.*' => 'image|mimes:jpg,jpeg,png,webp|max:4096',
         ]);
 
-        $dokumentasi->update([
+        $data = [
             'kategori' => $validated['kategori'] ?? null,
             'judul' => $validated['judul'],
             'deskripsi' => $validated['deskripsi'] ?? null,
-            'tanggal' => $validated['tanggal'] ?? null,
-        ]);
+        ];
+
+        // Bila tanggal dikosongkan, pertahankan tanggal yang sudah tersimpan.
+        if (filled($validated['tanggal'] ?? null)) {
+            $data['tanggal'] = $validated['tanggal'];
+        }
+
+        $dokumentasi->update($data);
 
         if ($request->hasFile('fotos')) {
             // Hapus foto lama dan ganti dengan yang baru.

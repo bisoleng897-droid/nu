@@ -47,7 +47,7 @@
                     <a href="{{ route('news.show', $item) }}" class="group flex flex-col bg-white rounded-[20px] overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-200 border h-full" style="border-color:rgba(24,61,34,.07)">
                         <div class="overflow-hidden aspect-video bg-gradient-to-br shrink-0" style="background: linear-gradient(135deg, #EEF4D9, #E0EBBC)">
                             @if($item->image)
-                                <img src="{{ asset('storage/'.$item->image) }}" alt="{{ $item->title }}"
+                                <img src="{{ $item->imageUrl() }}" alt="{{ $item->title }}"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
                             @else
                                 <div class="w-full h-full flex items-center justify-center" style="background:#F9F9F7">
@@ -56,7 +56,7 @@
                             @endif
                         </div>
                         <div class="p-5 flex flex-col gap-2 grow w-full overflow-hidden min-w-0">
-                            <span class="text-xs font-semibold truncate" style="color:#2F6B2F">{{ ($item->published_at ?? $item->created_at)->format('d M Y') }}</span>
+                            <span class="text-xs font-semibold truncate" style="color:#2F6B2F">{{ $item->published_at?->format('d M Y') ?? $item->created_at->format('d M Y') }}</span>
                             <h3 class="font-bold text-base line-clamp-2 group-hover:underline w-full" style="color:#183D22; word-break: break-word; overflow-wrap: break-word;">{{ $item->title }}</h3>
                             <p class="text-sm mt-auto line-clamp-2 w-full" style="color:#7D8575; word-break: break-word; overflow-wrap: break-word;">{{ Str::limit($item->content, 90) }}</p>
                         </div>

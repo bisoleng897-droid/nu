@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class DokumentasiFoto extends Model
 {
@@ -40,6 +41,6 @@ class DokumentasiFoto extends Model
      */
     public function url(): string
     {
-        return asset('storage/'.$this->foto);
+        return Storage::disk('public')->url($this->foto);
     }
 }

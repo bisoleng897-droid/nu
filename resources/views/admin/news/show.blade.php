@@ -7,7 +7,7 @@
 
     <div class="panel p-6 md:p-8 mt-4">
         <h1 class="page-title">{{ $news->title }}</h1>
-        <p class="mt-2 text-sm" style="color:#7D8575">{{ ($news->published_at ?? $news->created_at)->format('d M Y') }}</p>
+        <p class="mt-2 text-sm" style="color:#7D8575">{{ $news->published_at?->format('d M Y') ?? $news->created_at->format('d M Y') }}</p>
 
         @if($news->image)
             <img src="{{ asset('storage/'.$news->image) }}" alt="{{ $news->title }}" class="rounded-3xl my-6 w-full max-w-2xl">

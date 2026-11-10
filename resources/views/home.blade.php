@@ -76,7 +76,7 @@
                     <a href="{{ route('news.show', $item) }}" class="group bg-white rounded-[28px] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border transform hover:-translate-y-1" style="border-color:rgba(24,61,34,.08)">
                         <div class="overflow-hidden h-56 bg-gradient-to-br" style="background: linear-gradient(135deg, #EEF4D9, #E0EBBC)">
                             @if($item->image)
-                                <img src="{{ asset('storage/'.$item->image) }}" alt="{{ $item->title }}"
+                                <img src="{{ $item->imageUrl() }}" alt="{{ $item->title }}"
                                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             @else
                                 <div class="w-full h-full flex items-center justify-center" style="background:#F9F9F7">
@@ -85,7 +85,7 @@
                             @endif
                         </div>
                         <div class="p-6">
-                            <span class="text-xs font-bold tracking-widest uppercase" style="color:#2F6B2F">{{ ($item->published_at ?? $item->created_at)->format('d M Y') }}</span>
+                            <span class="text-xs font-bold tracking-widest uppercase" style="color:#2F6B2F">{{ $item->published_at?->format('d M Y') ?? $item->created_at->format('d M Y') }}</span>
                             <h3 class="font-black text-lg mt-3 line-clamp-2 group-hover:underline transition" style="color:#183D22">{{ $item->title }}</h3>
                             <p class="text-sm mt-3 line-clamp-2" style="color:#5D6F5D">{{ Str::limit($item->content, 80) }}</p>
                         </div>
@@ -119,12 +119,17 @@
         @else
             <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-5">
                 @foreach($dokumentasi as $d)
-                    <a href="{{ route('dokumentasi') }}" class="group rounded-[24px] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                    <a href="{{ route('dokumentasi.show', $d) }}" class="group rounded-[24px] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                         <div class="overflow-hidden aspect-square bg-gradient-to-br" style="background: linear-gradient(135deg, #EEF4D9, #E0EBBC)">
-                            <img src="{{ asset('storage/'.$d->foto) }}" alt="{{ $d->judul }}"
-                                 class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-500">
+                            @if($d->coverUrl())
+                                <img src="{{ $d->coverUrl() }}" alt="{{ $d->judul }}" loading="lazy"
+                                     class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-500">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center text-[11px] text-gray-400">Tanpa Foto</div>
+                            @endif
                         </div>
                         <div class="p-4 bg-white border-t" style="border-color:rgba(24,61,34,.08)">
+                            <p class="text-xs font-semibold mb-1" style="color:#2F6B2F">{{ $d->tanggal?->format('d M Y') ?? $d->created_at->format('d M Y') }}</p>
                             <p class="text-sm font-bold line-clamp-2" style="color:#183D22">{{ $d->judul }}</p>
                         </div>
                     </a>

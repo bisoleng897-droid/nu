@@ -14,16 +14,15 @@
     <form method="POST" action="{{ route('admin.news.store') }}" enctype="multipart/form-data" class="panel p-6 md:p-8 mt-6">
         @csrf
 
-        <div class="grid md:grid-cols-2 gap-5">
-            <div class="field {{ $errors->has('title') ? 'has-error' : '' }}">
-                <label for="title">Judul <span class="text-red-600">*</span></label>
-                <input id="title" type="text" name="title" value="{{ old('title') }}" required maxlength="255" placeholder="Contoh: Kajian Bulanan Oktober">
-            </div>
+        <div class="field {{ $errors->has('title') ? 'has-error' : '' }}">
+            <label for="title">Judul <span class="text-red-600">*</span></label>
+            <input id="title" type="text" name="title" value="{{ old('title') }}" required maxlength="255" placeholder="Contoh: Kajian Bulanan Oktober">
+        </div>
 
-            <div class="field {{ $errors->has('published_at') ? 'has-error' : '' }}">
-                <label for="published_at">Tanggal Publikasi</label>
-                <input id="published_at" type="date" name="published_at" value="{{ old('published_at', now()->format('Y-m-d')) }}">
-            </div>
+        <div class="field mt-5 {{ $errors->has('published_at') ? 'has-error' : '' }}">
+            <label for="published_at">Tanggal Publikasi</label>
+            <input id="published_at" type="date" name="published_at" value="{{ old('published_at', now('Asia/Jakarta')->toDateString()) }}">
+            <p class="hint">Otomatis terisi tanggal hari ini (WIB). Anda tetap dapat mengubahnya.</p>
         </div>
 
         <div class="field mt-5 {{ $errors->has('content') ? 'has-error' : '' }}">

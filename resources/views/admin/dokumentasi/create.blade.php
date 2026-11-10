@@ -26,8 +26,9 @@
         </div>
 
         <div class="field {{ $errors->has('tanggal') ? 'has-error' : '' }}">
-            <label for="tanggal">Tanggal <span class="text-red-600">*</span></label>
-            <input id="tanggal" type="date" name="tanggal" value="{{ old('tanggal', now()->format('Y-m-d')) }}" required>
+            <label for="tanggal">Tanggal Publikasi</label>
+            <input id="tanggal" type="date" name="tanggal" value="{{ old('tanggal', now('Asia/Jakarta')->toDateString()) }}">
+            <p class="hint">Otomatis terisi tanggal hari ini (WIB). Anda tetap dapat mengubahnya.</p>
         </div>
 
         <div class="field mt-5 {{ $errors->has('deskripsi') ? 'has-error' : '' }}">

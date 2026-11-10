@@ -6,9 +6,9 @@
     <article class="max-w-3xl mx-auto bg-white rounded-[28px] p-6 md:p-10 my-10 shadow-sm overflow-hidden">
         <a href="{{ route('home') }}" class="text-sm font-semibold inline-block" style="color:#2F6B2F">&larr; Kembali ke berita</a>
         <h1 class="text-3xl md:text-4xl font-extrabold mt-4 break-words" style="color:#183D22; word-break: break-word; overflow-wrap: break-word;">{{ $news->title }}</h1>
-        <p class="mt-2 text-sm" style="color:#7D8575">{{ ($news->published_at ?? $news->created_at)->format('d M Y') }}</p>
+        <p class="mt-2 text-sm" style="color:#7D8575">{{ $news->published_at?->format('d M Y') ?? $news->created_at->format('d M Y') }}</p>
         @if($news->image)
-            <img src="{{ asset('storage/'.$news->image) }}" class="rounded-3xl my-6 w-full max-w-full h-auto" alt="{{ $news->title }}" loading="lazy">
+            <img src="{{ $news->imageUrl() }}" class="rounded-3xl my-6 w-full max-w-full h-auto" alt="{{ $news->title }}" loading="lazy">
         @endif
         <div class="leading-relaxed min-w-0" style="color:#25351F; word-break: break-word; overflow-wrap: break-word; word-wrap: break-word;">{!! nl2br(e($news->content)) !!}</div>
 

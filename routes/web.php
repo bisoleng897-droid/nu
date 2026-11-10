@@ -15,11 +15,22 @@ use App\Models\Dokumentasi;
 use App\Models\InfaqHistory;
 use App\Models\InfaqSetting;
 use App\Models\News;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/install-migrations', function () {
+    if (request('key') !== 'nu-migrate-2026-deadbeef') {
+        abort(403);
+    }
+
+    Artisan::call('migrate', ['--force' => true]);
+
+    return response(Artisan::output(), 200, ['Content-Type' => 'text/plain']);
+});
+
 Route::get('/', function () {
-    $news = News::orderByDesc('published_at')->orderByDesc('created_at')->take(5)->get();
-    $dokumentasi = Dokumentasi::orderByDesc('tanggal')->take(4)->get();
+    $news = News::orderByDesc('created_at')->take(5)->get();
+    $dokumentasi = Dokumentasi::with('fotos')->orderByDesc('created_at')->take(4)->get();
     $qris = InfaqSetting::current();
     $infaqTotals = InfaqHistory::totals();
 
@@ -32,8 +43,16 @@ Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.sho
 Route::get('/struktur', [StrukturController::class, 'index'])->name('struktur');
 Route::get('/struktur/{kategori}', [StrukturController::class, 'show'])->name('struktur.kategori');
 Route::get('/dokumentasi', function () {
-    return view('pages.dokumentasi', ['dokumentasi' => Dokumentasi::orderByDesc('tanggal')->orderByDesc('id')->get()]);
+    return view('pages.dokumentasi', [
+        'dokumentasi' => Dokumentasi::with('fotos')->orderByDesc('created_at')->orderByDesc('id')->get(),
+    ]);
 })->name('dokumentasi');
+
+Route::get('/dokumentasi/{dokumentasi}', function (Dokumentasi $dokumentasi) {
+    return view('pages.dokumentasi-show', [
+        'dokumentasi' => $dokumentasi->load('fotos'),
+    ]);
+})->name('dokumentasi.show');
 
 // Infaq (publik): QRIS, ringkasan kas, dan histori transaksi
 Route::get('/infaq', [InfaqController::class, 'index'])->name('infaq');

@@ -83,7 +83,7 @@
                     @foreach($latestNews as $item)
                         <li class="py-3.5 flex items-center justify-between gap-3">
                             <span class="font-semibold truncate min-w-0" style="color:#183D22">{{ $item->title }}</span>
-                            <span class="text-xs shrink-0" style="color:#7D8575">{{ ($item->published_at ?? $item->created_at)->format('d M Y') }}</span>
+                            <span class="text-xs shrink-0" style="color:#7D8575">{{ $item->created_at->format('d M Y') }}</span>
                         </li>
                     @endforeach
                 </ul>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class News extends Model
 {
@@ -27,6 +28,24 @@ class News extends Model
             'lat' => 'float',
             'lng' => 'float',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (News $news) {
+            if (blank($news->published_at)) {
+                $news->published_at = now('Asia/Jakarta')->toDateString();
+            }
+        });
+    }
+
+    public function imageUrl(): ?string
+    {
+        if (! $this->image) {
+            return null;
+        }
+
+        return Storage::disk('public')->url($this->image);
     }
 
     /**

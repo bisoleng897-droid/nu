@@ -9,7 +9,7 @@ class NewsController extends Controller
     public function index()
     {
         $query = News::query()
-            ->orderByDesc('published_at')->orderByDesc('created_at');
+            ->orderByDesc('created_at');
 
         if (request('q')) {
             $query->where('title', 'like', '%'.request('q').'%');

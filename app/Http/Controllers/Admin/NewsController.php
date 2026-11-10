@@ -11,7 +11,7 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = News::orderByDesc('published_at')->orderByDesc('created_at')->paginate(10);
+        $news = News::orderByDesc('created_at')->paginate(10);
 
         return view('admin.news.index', compact('news'));
     }
@@ -25,9 +25,8 @@ class NewsController extends Controller
     {
         $validated = $request->validate($this->rules());
 
-        if (empty($validated['published_at'])) {
-            $validated['published_at'] = now();
-        }
+        // Tanggal publikasi otomatis mengikuti hari ini (WIB) bila admin tidak mengisinya.
+        $validated['published_at'] = $validated['published_at'] ?? now('Asia/Jakarta')->toDateString();
 
         $validated['slug'] = Str::slug($validated['title']).'-'.time();
 
@@ -55,6 +54,11 @@ class NewsController extends Controller
     public function update(Request $request, News $news)
     {
         $validated = $request->validate($this->rules());
+
+        // Bila tanggal dikosongkan, pertahankan tanggal yang sudah tersimpan.
+        if (blank($validated['published_at'] ?? null)) {
+            unset($validated['published_at']);
+        }
 
         if ($validated['title'] !== $news->title) {
             $validated['slug'] = Str::slug($validated['title']).'-'.time();

@@ -54,7 +54,7 @@
                                     <span class="text-xs text-gray-400 italic">-</span>
                                 @endif
                             </td>
-                            <td class="whitespace-nowrap" style="color:#7D8575">{{ $d->tanggal?->format('d M Y') }}</td>
+                            <td class="whitespace-nowrap" style="color:#7D8575">{{ $d->tanggal?->format('d M Y') ?? $d->created_at->format('d M Y') }}</td>
                             <td>
                                 <div class="flex flex-wrap gap-2">
                                     <a href="{{ route('admin.dokumentasi.edit', $d) }}" class="btn btn-soft btn-sm">Edit</a>

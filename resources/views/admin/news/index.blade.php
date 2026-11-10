@@ -40,7 +40,7 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="whitespace-nowrap" style="color:#7D8575">{{ ($item->published_at ?? $item->created_at)->format('d M Y') }}</td>
+                            <td class="whitespace-nowrap" style="color:#7D8575">{{ $item->published_at?->format('d M Y') ?? $item->created_at->format('d M Y') }}</td>
                             <td>
                                 <div class="flex flex-wrap gap-2">
                                     <a href="{{ route('admin.news.edit', $item) }}" class="btn btn-soft btn-sm">Edit</a>
